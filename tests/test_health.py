@@ -1,6 +1,8 @@
 import pytest
 from httpx import ASGITransport, AsyncClient
+
 from clinic_booking_api.main import app
+
 
 @pytest.mark.asyncio
 async def test_health_returns_ok():

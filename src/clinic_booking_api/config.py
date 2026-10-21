@@ -1,7 +1,8 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import PostgresDsn, field_validator
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from functools import lru_cache
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
+from pydantic import PostgresDsn, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -12,7 +13,7 @@ class Settings(BaseSettings):
     @classmethod
     def validate_database_url(cls, url) -> str:
         if not isinstance(url, str):
-            raise ValueError("The value provided is not a valid database url string")
+            raise ValueError("The value provided is not a valid database url string") #noqa: TRY004 -Pydantic Only converts ValueError into ValidationError
         url = url.strip()
         prefixes = ["postgres://", "postgresql://"]
         new = "postgresql+asyncpg://"

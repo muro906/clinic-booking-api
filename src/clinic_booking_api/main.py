@@ -1,12 +1,14 @@
-from fastapi import FastAPI, Depends
-from fastapi.responses import JSONResponse
-from typing import Annotated
-from .database import engine, get_db
+import logging
 from contextlib import asynccontextmanager
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
-import logging
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from .database import engine, get_db
 
 logger = logging.getLogger(__name__)
 
@@ -31,8 +33,8 @@ async def health(db: Annotated[AsyncSession, Depends(get_db)]):
             logger.debug(r)
 
         return JSONResponse(status_code=200, content={"status": "ok"})
-    except (SQLAlchemyError, OSError) as e:
-        logger.exception(e)
+    except (SQLAlchemyError, OSError):
+        logger.exception("Database Health Check. Server Unreachable")
         return JSONResponse(status_code=503, content={"status": "Unavailable"})
     
 

@@ -37,7 +37,9 @@ async def raise_not_found():
 
 @test_app.get("/conflict")
 async def raise_conflict():
-    raise ConflictError("slot_taken", "This booking conflicts with an existing booking.")
+    raise ConflictError(
+        "slot_taken", "This booking conflicts with an existing booking."
+    )
 
 
 @test_app.get("/rule")

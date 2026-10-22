@@ -9,9 +9,14 @@ pytest loads conftest.py before any test module.
 """
 
 import os
+from collections.abc import Iterator
+from datetime import UTC, datetime
 from urllib.parse import urlparse
 
+import pytest
 from dotenv import load_dotenv
+
+from clinic_booking_api.dependencies import get_now
 
 load_dotenv()  # copies .env into the environment without overwriting existing values
 
@@ -139,3 +144,14 @@ async def make_doctor(db_session) -> Callable[..., Awaitable[Doctor]]:
         return doctor
 
     return _make_doctor
+
+
+FIXED_NOW = datetime(2026, 11, 2, 5, 0, tzinfo=UTC)  # Monday 08:00 in Nairobi
+
+
+@pytest.fixture
+def fixed_now() -> Iterator[datetime]:
+    """Freeze the app's clock at FIXED_NOW for one test."""
+    app.dependency_overrides[get_now] = lambda: FIXED_NOW
+    yield FIXED_NOW
+    app.dependency_overrides.pop(get_now, None)

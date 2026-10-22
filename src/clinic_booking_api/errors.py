@@ -44,7 +44,7 @@ async def validation_error_handler(
         status_code=422,
         content={
             "error": {
-                "code": "Validation_error",
+                "code": "validation_error",
                 "message": "The iput has invalid fields",
                 "details": details,
             }

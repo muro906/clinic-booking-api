@@ -100,7 +100,7 @@ async def test_get_active_doctor_missing_id_raises_not_found(db_session):
     with pytest.raises(NotFoundError) as exc_info:
         await get_active_doctor(db_session, 999)
 
-    assert exc_info.value.code == "doctor_not_found."
+    assert exc_info.value.code == "doctor_not_found"
 
 
 @pytest.mark.asyncio
@@ -111,4 +111,4 @@ async def test_get_active_doctor_inactive_raises_not_found(db_session, make_doct
     with pytest.raises(NotFoundError) as exc_info:
         await get_active_doctor(db_session, retired.id)
 
-    assert exc_info.value.code == "doctor_not_found."
+    assert exc_info.value.code == "doctor_not_found"

@@ -17,5 +17,5 @@ async def list_active_doctors(db: AsyncSession) -> list[Doctor]:
 async def get_active_doctor(db: AsyncSession, doctor_id: int) -> Doctor:
     doctor = await db.get(Doctor, doctor_id)
     if doctor is None or not doctor.is_active:
-        raise NotFoundError("doctor_not_found.", "Doctor not found.")
+        raise NotFoundError("doctor_not_found", "Doctor not found")
     return doctor

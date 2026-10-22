@@ -18,6 +18,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files and change ownership to non-root user
 COPY --chown=fastapi:fastapi ./src/clinic_booking_api /code/clinic_booking_api
 
+COPY --chown=fastapi:fastapi  alembic.ini .
+COPY --chown=fastapi:fastapi migrations/ ./migrations/
+COPY --chown=fastapi:fastapi scripts/ ./scripts/
+
 # Switch to non-root user for security purposes
 USER fastapi
 
@@ -25,4 +29,4 @@ USER fastapi
 EXPOSE 8000
 
 # Start Uvicorn
-CMD ["sh", "-c", "exec uvicorn clinic_booking_api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "alembic upgrade head && python -m scripts.seed && exec uvicorn clinic_booking_api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

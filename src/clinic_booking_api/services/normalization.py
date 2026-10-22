@@ -1,5 +1,6 @@
-import unicodedata
 import re
+import unicodedata
+
 import phonenumbers
 
 
@@ -19,13 +20,12 @@ def normalize_name(raw_str: str) -> str:
 def normalize_phone(raw_phone: str) -> str:
     try:
         norm = phonenumbers.parse(raw_phone, "KE")
-        
 
     except phonenumbers.NumberParseException as e:
-        raise ValueError("Phone must be a valid kenyan number, for example 0712345678") from e
+        raise ValueError(
+            "Phone must be a valid kenyan number, for example 0712345678"
+        ) from e
     if not phonenumbers.is_valid_number_for_region(norm, "KE"):
         raise ValueError("Phone must be a valid kenyan number, for example 0712345678")
-    
-    return phonenumbers.format_number(norm,phonenumbers.PhoneNumberFormat.E164)
-        
-    
+
+    return phonenumbers.format_number(norm, phonenumbers.PhoneNumberFormat.E164)

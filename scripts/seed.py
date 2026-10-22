@@ -108,7 +108,9 @@ async def seed() -> None:
 
 
 async def main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(levelname)s %(name)s: %(message)s"
+    )
     try:
         await seed()
     finally:

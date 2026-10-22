@@ -24,7 +24,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-
 @app.get("/health")
 async def health(db: Annotated[AsyncSession, Depends(get_db)]):
     try:
@@ -36,5 +35,3 @@ async def health(db: Annotated[AsyncSession, Depends(get_db)]):
     except (SQLAlchemyError, OSError):
         logger.exception("Database Health Check. Server Unreachable")
         return JSONResponse(status_code=503, content={"status": "Unavailable"})
-    
-

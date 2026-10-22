@@ -29,3 +29,8 @@ def normalize_phone(raw_phone: str) -> str:
         raise ValueError("Phone must be a valid kenyan number, for example 0712345678")
 
     return phonenumbers.format_number(norm, phonenumbers.PhoneNumberFormat.E164)
+
+
+def clean_display_name(raw: str) -> str:
+    normalize_name(raw)
+    return " ".join(raw.split())

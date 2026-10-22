@@ -6,13 +6,9 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import DeclarativeBase
 
 from .config import get_settings
 
-
-class Base(DeclarativeBase):
-    pass
 # Create async database engine
 engine: AsyncEngine = create_async_engine(
     str(get_settings().database_url), pool_size=5, pool_pre_ping=True, max_overflow=10

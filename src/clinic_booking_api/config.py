@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     @classmethod
     def validate_database_url(cls, url) -> str:
         if not isinstance(url, str):
-            raise ValueError("The value provided is not a valid database url string") #noqa: TRY004 -Pydantic Only converts ValueError into ValidationError
+            raise ValueError("The value provided is not a valid database url string")  # noqa: TRY004 -Pydantic Only converts ValueError into ValidationError
         url = url.strip()
         prefixes = ["postgres://", "postgresql://"]
         new = "postgresql+asyncpg://"

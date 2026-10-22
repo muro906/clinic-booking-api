@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .database import engine, get_db
+from .errors import register_exception_handlers
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+register_exception_handlers(app)
 
 
 @app.get("/health")

@@ -8,7 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from clinic_booking_api.routers import doctors
+from clinic_booking_api.routers import appointments, doctors, patients
 
 from .database import engine, get_db
 from .errors import register_exception_handlers
@@ -28,6 +28,9 @@ app = FastAPI(lifespan=lifespan)
 register_exception_handlers(app)
 
 app.include_router(doctors.router)
+app.include_router(appointments.router)
+app.include_router(patients.router)
+app.include_router(patients.router)
 
 
 @app.get("/health")

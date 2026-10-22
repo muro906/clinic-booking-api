@@ -1,7 +1,9 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Literal
-from .common import ClinicDateTime
 import uuid
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict
+
+from .common import ClinicDateTime
 
 
 class PatientAppointment(BaseModel):

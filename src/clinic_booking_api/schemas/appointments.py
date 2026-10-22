@@ -3,11 +3,11 @@ from typing import Annotated, Literal
 
 from pydantic import (
     AfterValidator,
+    AwareDatetime,
     BaseModel,
     ConfigDict,
     EmailStr,
     Field,
-    AwareDatetime,
     StringConstraints,
 )
 
@@ -18,6 +18,7 @@ from clinic_booking_api.services.normalization import (
 )
 
 from .common import ClinicDateTime
+
 
 # Request Body for Post/appointments endpoint. User can create appointments with doctor by supplying this info
 class AppointmentCreate(BaseModel):
@@ -34,12 +35,13 @@ class AppointmentCreate(BaseModel):
 
     email: EmailStr | None = None
 
-    #Reject unknown fields catching client typos
+    # Reject unknown fields catching client typos
     model_config = ConfigDict(extra="forbid")
 
     @property
     def name_normalized(self) -> str:
         return normalize_name(self.name)
+
 
 # Response Body for response: cancel ,reschedule and base for booking
 class AppointmentOut(BaseModel):
@@ -54,14 +56,17 @@ class AppointmentOut(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 # Response body for response: booking
 class AppointmentCreated(AppointmentOut):
     token: str
+
 
 # Handles Request Body to PATCH /appointments/{id}/reschedule
 class RescheduleRequest(BaseModel):
     start_time: AwareDatetime
     model_config = ConfigDict(extra="forbid")
+
 
 # Request Body Class for PATCH /appointments/{id}/cancel
 class CancelRequest(BaseModel):

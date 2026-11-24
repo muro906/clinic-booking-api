@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated
 
 from fastapi import Depends, FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -30,17 +30,18 @@ register_exception_handlers(app)
 app.include_router(doctors.router)
 app.include_router(appointments.router)
 app.include_router(patients.router)
-app.include_router(patients.router)
 
 
 @app.get("/health")
 async def health(db: Annotated[AsyncSession, Depends(get_db)]):
     try:
-        result = await db.execute(text("SELECT 1"))
-        for r in result:
-            logger.debug(r)
+        await db.execute(text("SELECT 1"))
 
         return JSONResponse(status_code=200, content={"status": "ok"})
     except (SQLAlchemyError, OSError):
         logger.exception("Database Health Check. Server Unreachable")
         return JSONResponse(status_code=503, content={"status": "Unavailable"})
+
+@app.get("/", include_in_schema=False)
+async def home(db: Annotated[AsyncSession, Depends(get_db)]):
+    return RedirectResponse('/docs')

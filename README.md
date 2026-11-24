@@ -398,7 +398,7 @@ cancel and reschedule edge cases, and the listing's minimized fields.
   the same region, connected over the internal URL. On start, the container runs
   `alembic upgrade head`, then the idempotent seed, then uvicorn.
 - **Free-tier notes:** the service sleeps after about 15 minutes idle. The free
-  database was created on 20/10/2026 and expires 30 days later.
+  database was created on 24/11/2026 and expires 30 days later.
 
 **Branch that triggers a deployment:** `main`.
 
